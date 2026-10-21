@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  backend:
+    build: ./backend
+    container_name: vcsp-backend
+    environment:
+      - CLIPS_API_KEY=${CLIPS_API_KEY}
+      - CLIPS_API_BASE=${CLIPS_API_BASE}
+      - CORS_ORIGINS=http://localhost:5173
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+  frontend:
+    build: ./frontend
+    container_name: vcsp-frontend
+    environment:
+      - VITE_API_BASE=http://localhost:8000/api
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/usr/src/app
+    depends_on:
+      - backend
+
